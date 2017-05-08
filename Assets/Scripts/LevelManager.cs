@@ -4,18 +4,38 @@ using UnityEngine;
 using System;
 
 // Script to create levels
-public class LevelManager : MonoBehaviour {
-
+public class LevelManager : Singleton<LevelManager> {
+   
+   // An array of tile prefabs that we can draw our tiles from
    [SerializeField]
    private GameObject[] tilePrefabs;
 
+   // Holds the camera that we are using
    [SerializeField]
    private CameraMovement cameraMovement;
 
+   // Holds a transform that all the tiles created will be transfered to for organization purposes
+   [SerializeField]
+   private Transform map;
+
+   // Spawn and End points of enemies
+   private Point StartSpawn;
+   private Point EndSpawn;
+
+   // Prefab for Start
+   [SerializeField]
+   private GameObject startPortalPrefab;
+
+   // Prefab for End
+   [SerializeField]
+   private GameObject endPortalPrefab;
+
+   // Size of a single tile L and W
    public float TileSize {
       get { return tilePrefabs[0].GetComponent<SpriteRenderer>().sprite.bounds.size.x; }
    }
 
+   // Dictionary to access tile at a certain point 
    public Dictionary<Point, TileScript> Tiles { get; set; }
 
 	// Use this for initialization
@@ -59,6 +79,8 @@ public class LevelManager : MonoBehaviour {
       maxTile = Tiles[new Point(mapXSize - 1, mapYSize - 1)].transform.position;
 
       cameraMovement.SetLimits(new Vector3(maxTile.x + TileSize, maxTile.y - TileSize));
+
+      SpawnPortals();
    }
 
    private void PlaceTile(string tileType, int x, int y, Vector3 worldStart) {
@@ -69,9 +91,9 @@ public class LevelManager : MonoBehaviour {
       TileScript newTile = Instantiate(tilePrefabs[tileIndex]).GetComponent<TileScript>();
 
       // Move the tile accordingly on the map
-      newTile.Setup(new Point(x, y), new Vector3(worldStart.x + (TileSize * x), worldStart.y - (TileSize * y), 0));
+      newTile.Setup(new Point(x, y), new Vector3(worldStart.x + (TileSize * x), worldStart.y - (TileSize * y), 0), map);
 
-      Tiles.Add(new Point(x, y), newTile);
+      //Tiles.Add(new Point(x, y), newTile);
    }
 
    private string[] ReadLevelText() {
@@ -80,5 +102,14 @@ public class LevelManager : MonoBehaviour {
       string data = bindData.text.Replace(Environment.NewLine, String.Empty);
 
       return data.Split('-');
+   }
+
+   private void SpawnPortals() {
+      StartSpawn = new Point(1, 0);
+      Instantiate(startPortalPrefab, Tiles[StartSpawn].GetComponent<TileScript>().WorldPosition, Quaternion.identity);
+
+      // Fix the end spawn later
+      EndSpawn = new Point(19, 0);
+      Instantiate(endPortalPrefab, Tiles[EndSpawn].GetComponent<TileScript>().WorldPosition, Quaternion.identity);
    }
 }
