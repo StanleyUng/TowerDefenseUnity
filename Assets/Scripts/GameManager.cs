@@ -34,14 +34,22 @@ public class GameManager : Singleton<GameManager> {
       HandleEscape();
 	}
 
-
    public void PickTower(TowerButton towerBtn) {
-      this.ClickedButton = towerBtn;
-      Hover.Instance.Activate(towerBtn.Sprite);
+
+      if (Gold >= towerBtn.Price) {
+         // Reference to which button we pressed
+         this.ClickedButton = towerBtn;
+
+         // Activate icon
+         Hover.Instance.Activate(towerBtn.Sprite);
+      }
    }
 
    public void BuyTower() {
-      Hover.Instance.Deactivate();
+      if (Gold >= ClickedButton.Price) {
+         Gold -= ClickedButton.Price;
+         Hover.Instance.Deactivate();
+      }
    }
 
    // Deselect a tower
