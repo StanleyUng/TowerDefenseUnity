@@ -20,13 +20,13 @@ public class GameManager : Singleton<GameManager> {
 
       set {
          this.gold = value;
-         this.goldText.text = value.ToString() + "<color=yellow> G</color>" ;
+         this.goldText.text = value.ToString() + "<color=yellow>G</color>" ;
       }
    }
 
 	// Use this for initialization
 	void Start () {
-      Gold = 10;
+      Gold = 1000;
 	}
 	
 	// Update is called once per frame
