@@ -46,7 +46,7 @@ public class LevelManager : Singleton<LevelManager> {
 	
 	// Update is called once per frame
 	void Update () {
-		
+   
 	}
 
    private void CreateLevel() {
