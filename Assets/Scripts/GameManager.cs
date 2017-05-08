@@ -20,7 +20,7 @@ public class GameManager : Singleton<GameManager> {
 
       set {
          this.gold = value;
-         this.goldText.text = "<color=lime>$</color>" + value.ToString();
+         this.goldText.text = value.ToString() + "<color=yellow>G</color>" ;
       }
    }
 
