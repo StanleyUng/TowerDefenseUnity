@@ -18,15 +18,21 @@ public class TileScript : MonoBehaviour {
             transform.position.y - (GetComponent<SpriteRenderer>().bounds.size.y / 2));
       } 
    }
+   
+   public SpriteRenderer SpriteRenderer { get; set; }
 
-   public SpriteRenderer spriteRenderer;
+   // Is there a structure in the way?
+   public bool Walkable { get; set; }
 
    private Color occupiedColor = Color.red;
    private Color emptyColor = Color.green;
 
+   // Temp
+   public bool Debug { get; set; }
+
 	// Use this for initialization
 	void Start () {
-      spriteRenderer = GetComponent<SpriteRenderer>();
+      SpriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -36,6 +42,7 @@ public class TileScript : MonoBehaviour {
 
    public void Setup(Point p, Vector3 worldPos, Transform parent) {
       IsEmpty = true;
+      Walkable = true;
       this.GridPos = p;
       transform.position = worldPos;
 
@@ -55,11 +62,11 @@ public class TileScript : MonoBehaviour {
       // Only place a tower if the mouse is not on top of the UI buttons
       if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickedButton != null) {
          
-         if (IsEmpty) {
+         if (IsEmpty && !Debug) {
             ColorTile(emptyColor);
          }
          
-         if (!IsEmpty) {
+         if (!IsEmpty && !Debug) {
             ColorTile(occupiedColor);
          } else if (Input.GetMouseButtonDown(0)) {
             PlaceTower();
@@ -69,7 +76,12 @@ public class TileScript : MonoBehaviour {
    }
 
    private void OnMouseExit() {
-      ColorTile(Color.white);
+    
+      if (!Debug) {
+         ColorTile(Color.white);
+      }
+
+      //ColorTile(Color.white);
    }
 
    // Place a tower on a tile
@@ -90,10 +102,13 @@ public class TileScript : MonoBehaviour {
       ColorTile(Color.white);
 
       GameManager.Instance.BuyTower();
+
+      // A tile is not walkable since we bought a tower and put it there
+      Walkable = false;
    }
 
    // Change the color of the tile
    private void ColorTile(Color c) {
-      spriteRenderer.color = c;
+      SpriteRenderer.color = c;
    }
 }

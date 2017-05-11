@@ -38,6 +38,8 @@ public class LevelManager : Singleton<LevelManager> {
    // Dictionary to access tile at a certain point 
    public Dictionary<Point, TileScript> Tiles { get; set; }
 
+   private Point mapSize;
+
 	// Use this for initialization
 	void Start () {
       // Creates the level
@@ -59,6 +61,8 @@ public class LevelManager : Singleton<LevelManager> {
       int mapXSize = mapData[0].ToCharArray().Length;
       // The number of elements in the map array
       int mapYSize = mapData.Length;
+
+      mapSize = new Point(mapXSize, mapYSize);
 
       Vector3 maxTile = Vector3.zero;
 
@@ -111,5 +115,10 @@ public class LevelManager : Singleton<LevelManager> {
       // Fix the end spawn later
       EndSpawn = new Point(19, 0);
       Instantiate(endPortalPrefab, Tiles[EndSpawn].GetComponent<TileScript>().WorldPosition, Quaternion.identity);
+   }
+
+   public bool InBounds(Point position) {
+      return position.X >= 0 && position.Y >= 0 
+         && position.X < mapSize.X && position.Y < mapSize.Y;
    }
 }
