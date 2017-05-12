@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AStar {
@@ -16,7 +17,7 @@ public class AStar {
       }
    }
 
-   public static void GetPath(Point start) {
+   public static void GetPath(Point start, Point end) {
       
       if (nodes == null) {
          CreateNodes();
@@ -24,11 +25,18 @@ public class AStar {
 
       HashSet<Node> openList = new HashSet<Node>();
 
+      HashSet<Node> closedList = new HashSet<Node>();
+
+      // Stack to hold the final path
+      Stack<Node> finalPath = new Stack<Node>();
+
       // Accessing the node at Point start
       Node currentNode = nodes[start];
 
       // Add the start to the open list
       openList.Add(currentNode);
+
+      while (openList.Count > 0) {
 
       // Find all the neighbors of the tile
       for (int x = -1; x <= 1; x++) {
@@ -36,12 +44,45 @@ public class AStar {
             Point neighborPos = new Point(currentNode.GridPosition.X - x, currentNode.GridPosition.Y - y);
             
             if (LevelManager.Instance.Tiles[neighborPos].Walkable && neighborPos != currentNode.GridPosition) {
+
+               int gCost = 0;
+               if (Mathf.Abs(x - y) == 1) {
+                  gCost = 10;
+               } else {
+                  gCost = 14;
+               }   
+
                Node neighbor = nodes[neighborPos];
-               neighbor.TileRef.SpriteRenderer.color = Color.black;
+
+               if (openList.Contains(neighbor)) {
+                  if (currentNode.G + gCost < neighbor.G) {
+                     neighbor.CalcValues(currentNode, nodes[end], gCost);
+                  }
+               } else if (!closedList.Contains(neighbor)) {
+                  openList.Add(neighbor);
+                  neighbor.CalcValues(currentNode, nodes[end], gCost);
+               }
             }
          }
       }
 
-      GameObject.Find("AStarDebugger").GetComponent<AStarDebug>().DebugPath(openList);
+      openList.Remove(currentNode);
+      closedList.Add(currentNode);
+
+      if (openList.Count > 0) {
+         // Sort list by F value, the first of the list is the lowest F value 
+         currentNode = openList.OrderBy(n => n.F).First();
+      }
+
+      if (currentNode == nodes[end]) {
+         while (currentNode.GridPosition != start) {
+            finalPath.Push(currentNode);
+            currentNode = currentNode.Parent;
+         }
+         break;
+      }
+
+      }// while
+      GameObject.Find("AStarDebugger").GetComponent<AStarDebug>().DebugPath(openList, closedList);
    }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerDefenseUnity", "TowerDefenseUnity.csproj", "{04AB9B26-6D7D-372F-E535-B44C20E8319B}"
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerDefenseUnity.CSharp", "TowerDefenseUnity.CSharp.csproj", "{5250985B-4851-826D-406D-7644F488B7F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{04AB9B26-6D7D-372F-E535-B44C20E8319B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04AB9B26-6D7D-372F-E535-B44C20E8319B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04AB9B26-6D7D-372F-E535-B44C20E8319B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04AB9B26-6D7D-372F-E535-B44C20E8319B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5250985B-4851-826D-406D-7644F488B7F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5250985B-4851-826D-406D-7644F488B7F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5250985B-4851-826D-406D-7644F488B7F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5250985B-4851-826D-406D-7644F488B7F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

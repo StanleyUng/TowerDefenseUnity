@@ -19,7 +19,9 @@ public class TileScript : MonoBehaviour {
       } 
    }
    
-   public SpriteRenderer SpriteRenderer { get; set; }
+   //public SpriteRenderer SpriteRenderer { get; set; }
+
+   private SpriteRenderer spriteRenderer;
 
    // Is there a structure in the way?
    public bool Walkable { get; set; }
@@ -32,7 +34,8 @@ public class TileScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-      SpriteRenderer = GetComponent<SpriteRenderer>();
+      //SpriteRenderer = GetComponent<SpriteRenderer>();
+      spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -109,6 +112,6 @@ public class TileScript : MonoBehaviour {
 
    // Change the color of the tile
    private void ColorTile(Color c) {
-      SpriteRenderer.color = c;
+      spriteRenderer.color = c;
    }
 }
